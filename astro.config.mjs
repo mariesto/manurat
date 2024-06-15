@@ -7,11 +7,12 @@ import pagefind from "astro-pagefind";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://manurat.vercel.app",
+  site: "https://www.manurat.dev",
   integrations: [tailwind(), sitemap(), mdx(), pagefind()],
   markdown: {
     shikiConfig: {
-      theme: "css-variables",
+      theme: 'one-dark-pro',
+      wrap: true
     },
   },
 });
