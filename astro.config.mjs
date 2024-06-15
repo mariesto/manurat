@@ -5,6 +5,8 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import pagefind from "astro-pagefind";
 
+import vercel from "@astrojs/vercel/serverless"
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.manurat.dev",
@@ -15,4 +17,10 @@ export default defineConfig({
       wrap: true
     },
   },
+  output: "server",
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    }
+  })
 });
