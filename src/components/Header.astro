@@ -7,9 +7,11 @@ import Logo from "./Logo.astro";
 <header>
   <Container>
     <div class="flex flex-wrap justify-between gap-y-3">
-      <Link href="/" underline={false}>
-        <Logo />
-      </Link>
+      <div class="flex items-center">
+        <Link href="/" underline={false}>
+          <Logo />
+        </Link>
+      </div>
       <nav class="flex items-center gap-1 text-sm">
         <Link href="/blog">blog</Link>
         <span>

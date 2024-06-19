@@ -39,7 +39,7 @@ draft: false;
 ```
 
 | Field       | Req | Type    | Remarks                                          |
-| :---------- | :-- | :------ | :----------------------------------------------- |
+|:------------|:----|:--------|:-------------------------------------------------|
 | title       | Yes | string  | Title of the content. Used in SEO and RSS.       |
 | description | Yes | string  | Description of the content. Used in SEO and RSS. |
 | date        | Yes | string  | Must be a valid date string (able to be parsed). |
