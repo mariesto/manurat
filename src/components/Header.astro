@@ -1,7 +1,6 @@
 ---
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
-import Logo from "./Logo.astro";
 ---
 
 <header>
@@ -9,7 +8,7 @@ import Logo from "./Logo.astro";
     <div class="flex flex-wrap justify-between gap-y-3">
       <div class="flex items-center">
         <Link href="/" underline={false}>
-          <Logo />
+          <div id="text-logo4" class="text-4xl md:max-xl">manurat</div>
         </Link>
       </div>
       <nav class="flex items-center gap-1 text-sm">
@@ -97,6 +96,8 @@ import Logo from "./Logo.astro";
 </header>
 
 <style is:inline>
+  @import url('https://fonts.cdnfonts.com/css/hilliant');
+
   :root {
     --color-text: #dae0e5;
   }
@@ -105,5 +106,9 @@ import Logo from "./Logo.astro";
     :root {
       --color-text: #070f1c;
     }
+  }
+
+  #text-logo4 {
+    font-family: 'Hilliant', sans-serif;
   }
 </style>
