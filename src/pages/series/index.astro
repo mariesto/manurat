@@ -1,0 +1,65 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import { SERIES } from "@consts";
+import ArrowCard from "@components/ArrowCard.astro";
+import Container from "@components/Container.astro";
+import Layout from "@layouts/Layout.astro";
+
+const allSeries = await getCollection("series");
+const uniqueSeries = [
+  ...new Set(allSeries.map((entry) => entry.data.seriesName)),
+];
+
+const seriesMap = new Map();
+allSeries.forEach((entry) => {
+  if (
+    !seriesMap.has(entry.data.seriesName) ||
+    entry.data.date.valueOf() < seriesMap.get(entry.data.seriesName).data.order
+  ) {
+    seriesMap.set(entry.data.seriesName, entry);
+  }
+});
+
+const data = (await getCollection("series"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+type Acc = {
+  [year: string]: CollectionEntry<"series">[];
+};
+
+const posts = data.reduce((acc: Acc, post) => {
+  const year = post.data.date.getFullYear().toString();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
+---
+
+<Layout title={SERIES.TITLE} description={SERIES.DESCRIPTION}>
+  <Container>
+    <div class="space-y-10">
+      <div class="space-y-4">
+        {
+          years.map((year) => (
+            <section class="animate space-y-4">
+              <div class="font-semibold text-black dark:text-white">{year}</div>
+              <div>
+                <ul class="not-prose flex flex-col gap-4">
+                  {uniqueSeries.map((seriesName) => {
+                    const entry = seriesMap.get(seriesName);
+                    return <ArrowCard entry={entry} isSeriesIndex={true} />;
+                  })}
+                </ul>
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </Container>
+</Layout>

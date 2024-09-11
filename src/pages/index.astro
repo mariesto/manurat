@@ -1,76 +1,101 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
-import {SITE, HOME} from "@consts";
+import { SITE, HOME } from "@consts";
 import ArrowCard from "@components/ArrowCard.astro";
 import Link from "@components/Link.astro";
-import {getCollection} from "astro:content";
-import type {CollectionEntry} from "astro:content";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import SocialAccountIcon from "../components/SocialAccountIcon.astro";
 
 const blog = (await getCollection("blog"))
-    .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-    .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
 
 const projects: CollectionEntry<"projects">[] = (
-    await getCollection("projects")
+  await getCollection("projects")
 )
-    .filter((project) => !project.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-    .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
+  .filter((project) => !project.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
+
+const series = (await getCollection("series"))
+  .filter((serie) => !serie.data.draft)
+  .filter((serie) => serie.data.isParent)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_SERIES_ON_HOMEPAGE);
 ---
 
 <Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
-    <Container>
-        <h1 class="animate font-semibold text-black dark:text-white">Hi there!</h1>
-        <div class="space-y-16">
-            <section>
-                <article class="space-y-4">
+  <Container>
+    <h1 class="animate font-semibold text-black dark:text-white">Hi there!</h1>
+    <div class="space-y-16">
+      <section>
+        <article class="space-y-4">
           <span class="animate">
-            <p>I'm Amendo, a software engineer from Indonesia.
-              They say software engineers can build anything with code. Well,
-              this blog is my attempt to build a space for open expression.
-              Here, I'll share my thoughts on various topics. Enjoy 🤙
+            <p>
+              I'm Amendo, a software engineer from Indonesia. They say software
+              engineers can build anything with code. Well, this blog is my
+              attempt to build a space for open expression. Here, I'll share my
+              thoughts on various topics. Enjoy 🤙
             </p>
-            <SocialAccountIcon/>
+            <SocialAccountIcon />
           </span>
-                </article>
-            </section>
+        </article>
+      </section>
 
-            <section class="animate space-y-6">
-                <div class="flex flex-wrap items-center justify-between gap-y-2">
-                    <h2 class="font-semibold text-black dark:text-white">Latest posts</h2>
-                    <Link href="/blog"> See all posts</Link>
-                </div>
-                <ul class="not-prose flex flex-col gap-4">
-                    {
-                        blog.map((post) => (
-                                <li>
-                                    <ArrowCard entry={post}/>
-                                </li>
-                        ))
-                    }
-                </ul>
-            </section>
-
-            <section class="animate space-y-6">
-                <div class="flex flex-wrap items-center justify-between gap-y-2">
-                    <h2 class="font-semibold text-black dark:text-white">
-                        Recent projects
-                    </h2>
-                    <Link href="/projects"> See all projects</Link>
-                </div>
-                <ul class="not-prose flex flex-col gap-4">
-                    {
-                        projects.map((project) => (
-                                <li>
-                                    <ArrowCard entry={project}/>
-                                </li>
-                        ))
-                    }
-                </ul>
-            </section>
+      <section class="animate space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-y-2">
+          <h2 class="font-semibold text-black dark:text-white">Latest posts</h2>
+          <Link href="/blog"> See all posts</Link>
         </div>
-    </Container>
+        <ul class="not-prose flex flex-col gap-4">
+          {
+            blog.map((post) => (
+              <li>
+                <ArrowCard entry={post} />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="animate space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-y-2">
+          <h2 class="font-semibold text-black dark:text-white">
+            Latest series
+          </h2>
+          <Link href="/series"> See all series </Link>
+        </div>
+        <ul class="not-prose flex flex-col gap-4">
+          {
+            series.map((post) => (
+              <li>
+                <ArrowCard entry={post} isSeriesIndex={true} />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="animate space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-y-2">
+          <h2 class="font-semibold text-black dark:text-white">
+            Recent projects
+          </h2>
+          <Link href="/projects"> See all projects</Link>
+        </div>
+        <ul class="not-prose flex flex-col gap-4">
+          {
+            projects.map((project) => (
+              <li>
+                <ArrowCard entry={project} />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </Container>
 </Layout>

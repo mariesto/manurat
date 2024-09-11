@@ -5,7 +5,6 @@ import sitemap from "@astrojs/sitemap";
 import pagefind from "astro-pagefind";
 import vercel from "@astrojs/vercel/serverless";
 
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.manurat.dev",
@@ -17,5 +16,13 @@ export default defineConfig({
     }
   },
   output: "hybrid",
-  adapter: vercel()
+  adapter: vercel(),
+  content: {
+    collections: [
+      {
+        name: 'series',
+        pattern: 'series/**/*.md',
+      },
+    ]
+  }
 });

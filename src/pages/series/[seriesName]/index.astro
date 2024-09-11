@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import Container from "@components/Container.astro";
+import Layout from "@layouts/Layout.astro";
+import BackToPrevious from "@components/BackToPrevious.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+
+export async function getStaticPaths() {
+  const allSeries = await getCollection("series");
+  const uniqueSeries = [
+    ...new Set(allSeries.map((entry) => entry.data.seriesName)),
+  ];
+
+  return uniqueSeries.map((seriesName) => ({
+    params: { seriesName },
+    props: { seriesName },
+  }));
+}
+
+const { seriesName } = Astro.props;
+const seriesEntries = await getCollection(
+  "series",
+  (entry) => entry.data.seriesName === seriesName
+);
+seriesEntries.sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+---
+
+<Layout title={seriesName} description="List of content">
+  <Container>
+    <div class="animate">
+      <BackToPrevious href={`/series/`}>Back to series list</BackToPrevious>
+    </div>
+    <div class="my-10 space-y-10">
+      <div class="space-y-4">
+        <section class="animate space-y-4">
+          <div>
+            <ul class="not-prose flex flex-col gap-4">
+              {seriesEntries.map((entry) => (
+                <ArrowCard entry={entry} isSeriesIndex={false} />
+              ))}
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </Container>
+</Layout>
