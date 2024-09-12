@@ -7,7 +7,7 @@ import Layout from "@layouts/Layout.astro";
 
 const allSeries = await getCollection("series");
 const uniqueSeries = [
-  ...new Set(allSeries.map((entry) => entry.data.seriesName)),
+  ...new Set(allSeries.filter((entry) => entry.data.isParent).map((entry) => entry.data.seriesName)),
 ];
 
 const seriesMap = new Map();
@@ -22,6 +22,7 @@ allSeries.forEach((entry) => {
 
 const data = (await getCollection("series"))
   .filter((post) => !post.data.draft)
+  .filter((entry) => entry.data.isParent)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 type Acc = {

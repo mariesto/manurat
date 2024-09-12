@@ -8,7 +8,11 @@ import ArrowCard from "@components/ArrowCard.astro";
 export async function getStaticPaths() {
   const allSeries = await getCollection("series");
   const uniqueSeries = [
-    ...new Set(allSeries.map((entry) => entry.data.seriesName)),
+    ...new Set(
+      allSeries
+        .filter((entry) => !entry.data.isParent)
+        .map((entry) => entry.data.seriesName),
+    ),
   ];
 
   return uniqueSeries.map((seriesName) => ({
@@ -20,7 +24,7 @@ export async function getStaticPaths() {
 const { seriesName } = Astro.props;
 const seriesEntries = await getCollection(
   "series",
-  (entry) => entry.data.seriesName === seriesName
+  (entry) => entry.data.seriesName === seriesName && !entry.data.isParent,
 );
 seriesEntries.sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 ---
