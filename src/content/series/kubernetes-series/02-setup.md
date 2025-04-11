@@ -2,19 +2,19 @@
 title: "Development Setup"
 description: "Prepare local setup before hands on 🛠️"
 seriesName: "kubernetes-series"
-date: "2024-09-12"
+date: "2024-09-11"
 draft: false
 ---
 
 ## Intro
-Before we start to hands on, there are couple of things need to be prepared :
+Before we start to hands on, there are a couple of things need to be prepared :
 - Docker
 - kubectl
 - minikube
 
 Yes, we're going to use minikube in local so that we can have cluster to play with.
 You can refer to [THIS](https://kubernetes.io/docs/tasks/tools/) to do the installations.
-Since we're going to focus on the kubernetes context, I've create an application written with Java Spring Boot and pushed to [DockerHub](https://hub.docker.com/repository/docker/mariesto/order-service/general). We're going to use this as a demo application to start with k8s. Or if you have any other applications to use, feel free to choose.
+Since we're going to focus on the kubernetes context, I've created an application written with Java Spring Boot and pushed to [DockerHub](https://hub.docker.com/repository/docker/mariesto/order-service/general). We're going to use this as a demo application to start with k8s. Or if you have any other applications to use, feel free to choose.
 
 ## Setup
 This spring boot application required PostgresDB to run, which can be done either by running this command :
